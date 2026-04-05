@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PORT=3001
+      - DEMO_MODE=true
+      # Agrega tus tokens aquí:
+      # - APISPERU_TOKEN=tu_token
+      # - APISNETPE_TOKEN=tu_token
+      # - NUBEFACT_TOKEN=tu_token
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
